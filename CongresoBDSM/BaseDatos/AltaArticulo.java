@@ -111,7 +111,7 @@ public class AltaArticulo  extends JInternalFrame {
 				try {
 					Connection con = Conexion.getConection();
 				    cs=con.prepareCall("{call deletearticulo(?)}");
-				    cs.setString("idart",txtId.getText());
+				    cs.setString("id",txtId.getText());
 				
 				    cs.execute();
 				    JOptionPane.showMessageDialog(null,"Articulo Borrado Correctamente ");

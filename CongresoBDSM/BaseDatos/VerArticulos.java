@@ -28,7 +28,7 @@ public class VerArticulos  extends JInternalFrame {
 	public CongresoBD principal;
 	public JPanel contentPanel;
 	private JTextField buscar;
-	private JTable tableDatos;
+	
 	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 	private JTable table;
 
@@ -110,7 +110,7 @@ public class VerArticulos  extends JInternalFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(border);
-		scrollPane.setBounds(12, 168, 528, 321);
+		scrollPane.setBounds(12, 166, 528, 321);
 		getContentPane().add(scrollPane);
 		
 		
