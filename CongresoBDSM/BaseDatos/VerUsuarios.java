@@ -8,17 +8,25 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class VerUsuarios  extends JInternalFrame {
 	// Obtener el contexto del Frame principal Hospital
 	public CongresoBD principal;
 	public JPanel contentPanel;
-	private JTextField textField;
-	private JTable tableDatos;
+	private JTextField buscar;
+	private JTable table;
 	Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 
 	public VerUsuarios(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
@@ -39,23 +47,76 @@ public class VerUsuarios  extends JInternalFrame {
 		label.setBounds(12, 110, 36, 45);
 		getContentPane().add(label);
 		
-		textField = new JTextField();
-		textField.setBounds(60, 128, 354, 22);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		buscar = new JTextField();
+		buscar.setBounds(60, 128, 354, 22);
+		getContentPane().add(buscar);
+		buscar.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Buscar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String Campo = buscar.getText();
+				String where = "";
+
+				if (!"".equals(Campo))
+				{
+				where = "WHERE idArticulo = '" + Campo + "'";
+				}
+				
+				try {
+					DefaultTableModel modelo = new DefaultTableModel();
+					table.setModel(modelo);
+					PreparedStatement ps = null;
+					ResultSet rs = null;
+					@SuppressWarnings("unused")
+					Conexion conn = new Conexion();
+					Connection con = Conexion.getConection();
+					
+					
+					
+					String sql = "SELECT idInvestigador,nombre,apellido,especialidad  FROM investigador " + where;
+					System.out.println(sql);
+					ps = (PreparedStatement) con.prepareStatement(sql);
+					rs = ps.executeQuery();
+					
+					java.sql.ResultSetMetaData rsMd =  rs.getMetaData();
+					int cantidadColumnas = rsMd.getColumnCount();
+					
+					modelo.addColumn("ID Investigador");
+					modelo.addColumn("Nombre");
+			        modelo.addColumn("Apellido");
+			        modelo.addColumn("Especialidad");
+			        
+			      
+			                int[] anchos = {50, 100, 100, 120, 100, 100, 70};
+			        for (int x = 0; x < cantidadColumnas; x++) {
+			        table.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
+			        }
+					while (rs.next()) {
+						Object[] filas = new Object[cantidadColumnas];
+						for (int i = 0; i< cantidadColumnas; i++)
+						{
+							filas[i] = rs.getObject(i + 1);
+						}
+						modelo.addRow(filas);
+					}
+						
+				} catch (SQLException ex) {
+					System.err.println(ex.toString());
+				 }
+			}
+		});
 		btnNewButton.setBounds(426, 127, 97, 25);
 		getContentPane().add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(border);
-		scrollPane.setBounds(12, 168, 1186, 333);
+		scrollPane.setBounds(12, 168, 836, 333);
 		getContentPane().add(scrollPane);
 		
-		tableDatos = new JTable();
-		tableDatos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		scrollPane.setViewportView(tableDatos);
+		table = new JTable();
+		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		scrollPane.setViewportView(table);
 
 		setBounds(100, 100, 1226, 550);
 	}

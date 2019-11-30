@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class AltaCongreso  extends JInternalFrame {
-	// Obtener el contexto del Frame principal Hospital
+	// Obtener el contexto del Frame principal 
 	public CongresoBD principal;
 	public JPanel contentPanel;
 	private JTextField txtNombre;

@@ -5,9 +5,16 @@ import java.awt.Color;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class AltaInvestigador  extends JInternalFrame {
 	// Obtener el contexto del Frame principal Hospital
@@ -72,9 +79,88 @@ public class AltaInvestigador  extends JInternalFrame {
 		getContentPane().add(txtApellido);
 		
 		JButton btnRegistra = new JButton("Registrar");
-		btnRegistra.setBounds(421, 295, 97, 25);
+		btnRegistra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CallableStatement cs =null;
+				try {
+					Connection con = Conexion.getConection();
+				    cs=con.prepareCall("{call altaInvestigador(?,?,?,?)}");
+				    cs.setString("idinv",txtId.getText());
+				     cs.setString("nom",txtNombre.getText());
+				    cs.setString("apell",txtApellido.getText());
+				    cs.setString("espe",txtEspecialidad.getText());
+				   
+				    
+				   
+				    cs.execute();
+				    JOptionPane.showMessageDialog(null,"Investigador Registrado Correctamente ");
+				  
+			
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+			
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null,"Error al registrar Investigador ");
+				}
+			}
+		});
+		btnRegistra.setBounds(245, 346, 97, 25);
 		getContentPane().add(btnRegistra);
+		
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CallableStatement cs =null;
+				try {
+					Connection con = Conexion.getConection();
+				    cs=con.prepareCall("{call deletinvestigador(?)}");
+				    cs.setString("id",txtId.getText());
+				 
+				   
+				    
+				   
+				    cs.execute();
+				    JOptionPane.showMessageDialog(null,"Investigador Borrado Correctamente ");
+				  
+			
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null,"Error al eliminar Investigador ");
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnEliminar.setBounds(350, 347, 97, 25);
+		getContentPane().add(btnEliminar);
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CallableStatement cs =null;
+				try {
+					Connection con = Conexion.getConection();
+				    cs=con.prepareCall("{call updateInvestigador(?,?,?,?)}");
+				    cs.setString("idinv",txtId.getText());
+				     cs.setString("nom",txtNombre.getText());
+				    cs.setString("apell",txtApellido.getText());
+				    cs.setString("espe",txtEspecialidad.getText());
+				   
+				    
+				   
+				    cs.execute();
+				    JOptionPane.showMessageDialog(null,"Investigador Modificado Correctamente ");
+				  
+			
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null,"Error al Modificar Investigador");
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnModificar.setBounds(457, 347, 97, 25);
+		getContentPane().add(btnModificar);
 
-		setBounds(100, 100, 542, 369);
+		setBounds(100, 100, 578, 412);
 	}
 }
