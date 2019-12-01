@@ -228,14 +228,13 @@ delimiter ;
   call altacongreso(117,"Cong6","Zac",800,"Fisica","alto");
   
   delimiter //
- create procedure altaArticulo (in idart int(11), nomart varchar(25), idinv varchar (25), vere varchar(10))
+ create procedure altaArticulo (in idart int(11), nomart varchar(25), idinv varchar (25), vere varchar(10),idrev int(11))
   begin
   insert into articulo (idArticulo,nombreArt,idInvestigador,veredicto) values ( idart,nomart, idinv,vere);
+  insert into artirev values (idart,idrev);
   end;
   //
 
-delimiter ;
-call altaArticulo (2400,"art10",104,"Aceptado");
 
  delimiter //
  create procedure altaInvestigador (in idinv int(11),nom varchar(25), apell varchar(25),espe varchar(25))
@@ -249,9 +248,10 @@ call altaInvestigador (105,"Steve","Maincra","Minero");
 
 
 delimiter //
- create procedure altaponencia(in idpon int(11), nom varchar(25), idinves int(11), vere varchar(10))
+ create procedure altaponencia(in idpon int(11), nom varchar(25), idinves int(11), vere varchar(10), idCon int(11))
   begin
   insert into ponencia (idPonencia,nombrePon,idInvestigador,veredicto) values ( idpon, nom, idinves,vere);
+  insert into poncon values (idpon,idCon);
   end;
   //
   
@@ -301,10 +301,164 @@ delimiter //
   end;
   //
 
-  
+  /*USUARIOS*/
+drop user 'AdminCongreso'@'localhost';
+create user 'AdminCongreso'@'localhost' identified by "Qbka4p";
+GRANT ALL PRIVILEGES ON congreso.* TO 'AdminCongreso'@'localhost' WITH GRANT OPTION;
+create user 'Roberto'@'localhost' identified by "password";
+grant select on congreso.* to 'Roberto'@'localhost';
+
+
+
+
+
+/*TRIGGERS-AUDITORIA*/
+CREATE TABLE auditoria_investigador (
+    TIPO VARCHAR(25),
+    idInvestigador INTEGER,
+    nombre VARCHAR(25),
+    apellido VARCHAR(25),
+    especialidad VARCHAR(25),
+    usuario VARCHAR(40),
+    modificado DATETIME
+);
   
 
-  
+  delimiter //
+create trigger aud_inv_trig after update on investigador for each row 
+begin 
+insert into auditoria_investigador (TIPO,idInvestigador,nombre,apellido,especialidad,usuario,modificado)
+ values 
+("OLD",OLD.idInvestigador,OLD.nombre,OLD.apellido,OLD.especialidad,current_user(), now() ),
+("NEW",NEW.idInvestigador,NEW.nombre,NEW.apellido,NEW.especialidad,current_user(), now() );
+end; //
+delimiter ;
+
+create table auditoria_articulo (
+TIPO varchar (25),
+idArticulo integer,
+nombreArt varchar (25),
+idInvestigador INTEGER,
+aceptado bool,
+usuario varchar (40),
+modificado datetime);
+
+delimiter //
+create trigger aud_art_trig after update on articulo for each row 
+begin 
+insert into auditoria_articulo 
+(TIPO,idArticulo,nombreArt ,idInvestigador,aceptado,usuario,modificado) 
+values 
+("OLD",OLD.idArticulo,OLD.nombreArt,OLD.idInvestigador,OLD.veredicto,current_user(), now() ),
+("NEW",NEW.idArticulo,NEW.nombreArt,NEW.idInvestigador,NEW.veredicto,current_user(), now() );
+end; //
+delimiter ;
+
+
+create table auditoria_ArtiRev (
+	TIPO varchar (25),
+	idArticulo integer,
+    idRevista integer,
+	usuario varchar (40),
+	modificado datetime);
+    
+
+delimiter //
+create trigger aud_arti_trig after update on ArtiRev for each row 
+begin 
+insert into auditoria_ArtiRev 
+(TIPO,idArticulo,idRevista,usuario,modificado)
+values 
+("OLD",OLD.idArticulo,OLD.idRevista,current_user(), now() ),
+("NEW",NEW.idArticulo,NEW.idRevista,current_user(), now() );
+end; //
+delimiter ;
+    
+
+create table auditoria_ponencia (
+	TIPO varchar (25),
+	idPonencia integer,
+    nombrePon varchar (25),
+    idInvestigador integer,
+	usuario varchar (40),
+	modificado datetime);
+    
+
+delimiter //
+create trigger aud_pon_trig after update on ponencia for each row 
+begin 
+insert into auditoria_ponencia values 
+("OLD",OLD.idPonencia,OLD.nombrePon,OLD.idInvestigador,current_user(), now() ),
+("NEW",NEW.idPonencia,NEW.nombrePon,OLD.idInvestigador,current_user(), now() );
+end; //
+delimiter ; 
+    
+    
+
+create table auditoria_PonCon (
+	TIPO varchar (25),
+	idPonencia integer,
+    idCongreso integer,
+usuario varchar (40),
+modificado datetime);
+
+
+delimiter //
+create trigger aud_poncon_trig after update on PonCon for each row 
+begin 
+insert into auditoria_PonCon values 
+("OLD",OLD.idPonencia,OLD.idCongreso,current_user(), now() ),
+("NEW",NEW.idPonencia,NEW.idCongreso,current_user(), now() );
+end; //
+delimiter ; 
+
+   
+create table auditoria_congreso (
+	TIPO varchar (25),
+	idCongreso integer,
+	Nombre varchar (25),
+	lugar varchar (25),
+	costo float,
+	AreaInt varchar (25),
+	relevancia varchar (25),
+usuario varchar (40),
+modificado datetime);
+
+
+delimiter //
+create trigger aud_congreso_trig after update on congreso for each row 
+begin 
+insert into auditoria_congreso values 
+("OLD",OLD.idCongreso,OLD.Nombre,OLD.lugar,OLD.costo,OLD.AreaInt,OLD.relevancia,current_user(), now() ),
+("NEW",NEW.idCongreso,NEW.Nombre,NEW.lugar,NEW.costo,NEW.AreaInt,NEW.relevancia,current_user(), now() );
+end; //
+delimiter ; 
+
+
+CREATE TABLE auditoria_revista (
+    TIPO VARCHAR(25),
+    idRevista INTEGER,
+    costo FLOAT,
+    relevancia VARCHAR(25),
+    numRevista INTEGER,
+    Nombre VARCHAR(25),
+    fecha DATE,
+    tipoPub VARCHAR(25),
+    usuario VARCHAR(40),
+    modificado DATETIME
+);
+
+
+delimiter //
+create trigger aud_revista_trig after update on revista for each row 
+begin 
+insert into auditoria_revista
+(TIPO,idRevista,costo,relevancia,numRevista,Nombre,fecha,tipoPub,usuario,modificado)
+values 
+("OLD",OLD.idRevista,OLD.costo,OLD.relevancia,OLD.numRevista,OLD.Nombre,OLD.fecha,OLD.tipoPub,current_user(), now() ),
+("NEW",NEW.idRevista,NEW.costo,NEW.relevancia,NEW.numRevista,NEW.Nombre,NEW.fecha,NEW.tipoPub,current_user(), now() );
+end; //
+delimiter ; 
   
   
   
