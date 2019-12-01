@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-
+import com.mysql.jdbc.Statement;
 
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -117,7 +117,52 @@ public class VerArticulos  extends JInternalFrame {
 		
 		table = new JTable();
 		scrollPane.setColumnHeaderView(table);
+		
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {try {
 
-		setBounds(100, 100, 564, 535);
+				String[] columns = {"idArticulo", "nombreArt", "idInvestigador","veredicto","Revista"};
+				DefaultTableModel modelo = new DefaultTableModel(columns, 0);
+				modelo.addRow(columns);
+
+
+				ResultSet rs = null;
+				@SuppressWarnings("unused")
+				Conexion conn = new Conexion();
+				Connection con = Conexion.getConection();
+				Statement stmt= (Statement)con.createStatement();
+				String sql="SELECT articulo.idArticulo,articulo.nombreArt,articulo.idInvestigador,"
+						+ "articulo.veredicto,revista.Nombre FROM articulo,artirev,revista where "
+						+ "articulo.idArticulo=artirev.idArticulo AND artirev.idRevista=revista.idRevista";
+
+
+				System.out.println(sql);
+				rs=stmt.executeQuery(sql);
+				rs.beforeFirst();
+
+				 while (rs.next()) {
+					 String idArt=rs.getString("idArticulo");
+					 String nombre=rs.getString("nombreArt");
+					 String idInv=rs.getString("idInvestigador");
+					 String vere=rs.getString("veredicto");
+					 String rev=rs.getString("Nombre");
+					 System.out.println(rev);
+
+
+					 String[] data = {idArt, nombre, idInv,vere,rev};
+					 modelo.addRow(data);
+				 }
+				 table.setModel(modelo);
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	});
+		btnActualizar.setBounds(443, 500, 97, 25);
+		getContentPane().add(btnActualizar);
+
+		setBounds(100, 100, 564, 561);
 	}
 }
