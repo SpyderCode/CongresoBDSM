@@ -33,18 +33,20 @@ public class VerPonencia  extends JInternalFrame {
 
 	public VerPonencia(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		setVisible(true);
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Ver Ponencias");
+		lblNewLabel.setForeground(Color.CYAN);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 69));
 		lblNewLabel.setBounds(12, 13, 528, 84);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel lblId = new JLabel("ID");
+		lblId.setForeground(Color.WHITE);
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblId.setBounds(12, 110, 36, 45);
 		getContentPane().add(lblId);
@@ -147,6 +149,7 @@ public class VerPonencia  extends JInternalFrame {
 						String idInv=rs.getString("idInvestigador");
 						String acep=rs.getString("veredicto");
 						String cong=rs.getString("Nombre");
+						
 
 						String[] data= {idPon,nombre,idInv,acep,cong};
 						modelo.addRow(data);

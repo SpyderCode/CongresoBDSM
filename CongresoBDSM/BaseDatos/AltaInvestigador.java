@@ -27,33 +27,38 @@ public class AltaInvestigador  extends JInternalFrame {
 
 	public AltaInvestigador(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		setVisible(true);
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
 		
 		JLabel lblRegistrarInvestigador = new JLabel("Registrar");
+		lblRegistrarInvestigador.setForeground(Color.CYAN);
 		lblRegistrarInvestigador.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 69));
 		lblRegistrarInvestigador.setBounds(67, 0, 335, 84);
 		getContentPane().add(lblRegistrarInvestigador);
 		
 		JLabel label = new JLabel("ID");
+		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		label.setBounds(22, 97, 36, 45);
 		getContentPane().add(label);
 		
 		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblNombre.setBounds(22, 154, 106, 45);
 		getContentPane().add(lblNombre);
 		
 		JLabel lblApellido = new JLabel("Apellido");
+		lblApellido.setForeground(Color.WHITE);
 		lblApellido.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblApellido.setBounds(22, 205, 106, 45);
 		getContentPane().add(lblApellido);
 		
 		JLabel lblEspecialidad = new JLabel("Especialidad");
+		lblEspecialidad.setForeground(Color.WHITE);
 		lblEspecialidad.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblEspecialidad.setBounds(22, 263, 156, 45);
 		getContentPane().add(lblEspecialidad);

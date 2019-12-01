@@ -34,28 +34,32 @@ public class AltaArticulo  extends JInternalFrame {
     private JTextField txtRev;
 	public AltaArticulo(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		setVisible(true);
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
 		
 		JLabel lblArticulo = new JLabel("Articulo");
+		lblArticulo.setForeground(Color.CYAN);
 		lblArticulo.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 70));
 		lblArticulo.setBounds(12, 13, 389, 70);
 		getContentPane().add(lblArticulo);
 		
 		JLabel lblId = new JLabel("ID");
+		lblId.setForeground(Color.WHITE);
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblId.setBounds(12, 108, 36, 45);
 		getContentPane().add(lblId);
 		
 		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblNombre.setBounds(226, 108, 112, 45);
 		getContentPane().add(lblNombre);
 		
 		JLabel lblIdInvestigador = new JLabel("ID Investigador");
+		lblIdInvestigador.setForeground(Color.WHITE);
 		lblIdInvestigador.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblIdInvestigador.setBounds(12, 161, 220, 45);
 		getContentPane().add(lblIdInvestigador);
@@ -160,7 +164,7 @@ public class AltaArticulo  extends JInternalFrame {
 		JRadioButton rdbtnAceptado = new JRadioButton("Aceptado");
 		rdbtnAceptado.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		rdbtnAceptado.setBackground(Color.WHITE);
-		rdbtnAceptado.setForeground(Color.BLACK);
+		rdbtnAceptado.setForeground(Color.WHITE);
 		rdbtnAceptado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				vered="Aceptado";
@@ -171,6 +175,7 @@ public class AltaArticulo  extends JInternalFrame {
 		veredicto.add(rdbtnAceptado);
 		
 		JRadioButton rdbtnRechazado = new JRadioButton("Rechazado");
+		rdbtnRechazado.setForeground(Color.WHITE);
 		rdbtnRechazado.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		rdbtnRechazado.setBackground(Color.WHITE);
 		rdbtnRechazado.addActionListener(new ActionListener() {
@@ -188,6 +193,7 @@ public class AltaArticulo  extends JInternalFrame {
 		getContentPane().add(txtRev);
 		
 		JLabel lblIdRevista = new JLabel("ID Revista");
+		lblIdRevista.setForeground(Color.WHITE);
 		lblIdRevista.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblIdRevista.setBounds(12, 200, 220, 45);
 		getContentPane().add(lblIdRevista);

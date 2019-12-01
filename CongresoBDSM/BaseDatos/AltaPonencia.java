@@ -33,28 +33,32 @@ public class AltaPonencia  extends JInternalFrame {
 
 	public AltaPonencia(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		setVisible(true);
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
 		
 		JLabel lblPonencia = new JLabel("PONENCIA");
+		lblPonencia.setForeground(Color.CYAN);
 		lblPonencia.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 70));
 		lblPonencia.setBounds(12, 13, 389, 70);
 		getContentPane().add(lblPonencia);
 		
 		JLabel lblID = new JLabel("ID");
+		lblID.setForeground(Color.WHITE);
 		lblID.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblID.setBounds(12, 106, 36, 45);
 		getContentPane().add(lblID);
 		
 		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblNombre.setBounds(12, 182, 112, 45);
 		getContentPane().add(lblNombre);
 		
 		JLabel lblIdInvestigador = new JLabel("ID Investigador");
+		lblIdInvestigador.setForeground(Color.WHITE);
 		lblIdInvestigador.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblIdInvestigador.setBounds(236, 106, 220, 45);
 		getContentPane().add(lblIdInvestigador);
@@ -156,8 +160,8 @@ ButtonGroup veredicto = new ButtonGroup();
 		
 		JRadioButton rdbtnAceptado = new JRadioButton("Aceptado");
 		rdbtnAceptado.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		rdbtnAceptado.setBackground(Color.WHITE);
-		rdbtnAceptado.setForeground(Color.BLACK);
+		rdbtnAceptado.setBackground(Color.DARK_GRAY);
+		rdbtnAceptado.setForeground(Color.WHITE);
 		rdbtnAceptado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				vered="Aceptado";
@@ -168,14 +172,15 @@ ButtonGroup veredicto = new ButtonGroup();
 		veredicto.add(rdbtnAceptado);
 		
 		JRadioButton rdbtnRechazado = new JRadioButton("Rechazado");
+		rdbtnRechazado.setForeground(Color.WHITE);
 		rdbtnRechazado.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		rdbtnRechazado.setBackground(Color.WHITE);
+		rdbtnRechazado.setBackground(Color.DARK_GRAY);
 		rdbtnRechazado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				vered="Rechazado";
 			}
 		});
-		rdbtnRechazado.setBounds(66, 291, 109, 23);
+		rdbtnRechazado.setBounds(66, 291, 142, 23);
 		getContentPane().add(rdbtnRechazado);
 		veredicto.add(rdbtnRechazado);
 		
@@ -185,6 +190,7 @@ ButtonGroup veredicto = new ButtonGroup();
 		getContentPane().add(txtcongreso);
 		
 		JLabel lblIdCongreso = new JLabel("ID Congreso");
+		lblIdCongreso.setForeground(Color.WHITE);
 		lblIdCongreso.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		lblIdCongreso.setBounds(310, 182, 220, 45);
 		getContentPane().add(lblIdCongreso);

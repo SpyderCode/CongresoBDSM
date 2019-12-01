@@ -160,6 +160,7 @@ public class ingresarRevista extends JInternalFrame {
 		getContentPane().add(txtCosto);
 		
 		JLabel lblNewLabel = new JLabel("REVISTA");
+		lblNewLabel.setForeground(Color.CYAN);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 95));
 		lblNewLabel.setBounds(204, 0, 603, 103);
 		getContentPane().add(lblNewLabel);

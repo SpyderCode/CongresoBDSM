@@ -34,18 +34,21 @@ public class VerArticulos  extends JInternalFrame {
 
 	public VerArticulos(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setForeground(Color.DARK_GRAY);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		setVisible(true);
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Ver Articulos");
+		lblNewLabel.setForeground(Color.CYAN);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 69));
 		lblNewLabel.setBounds(12, 13, 528, 84);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel label = new JLabel("ID");
+		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 29));
 		label.setBounds(12, 110, 36, 45);
 		getContentPane().add(label);
@@ -133,7 +136,7 @@ public class VerArticulos  extends JInternalFrame {
 				Connection con = Conexion.getConection();
 				Statement stmt= (Statement)con.createStatement();
 				String sql="SELECT articulo.idArticulo,articulo.nombreArt,articulo.idInvestigador,"
-						+ "articulo.veredicto,revista.Nombre FROM articulo,artirev,revista where "
+						+ "articulo.veredicto,revista.idRevista FROM articulo,artirev,revista where "
 						+ "articulo.idArticulo=artirev.idArticulo AND artirev.idRevista=revista.idRevista";
 
 
@@ -146,7 +149,7 @@ public class VerArticulos  extends JInternalFrame {
 					 String nombre=rs.getString("nombreArt");
 					 String idInv=rs.getString("idInvestigador");
 					 String vere=rs.getString("veredicto");
-					 String rev=rs.getString("Nombre");
+					 String rev=rs.getString("idRevista");
 					 System.out.println(rev);
 
 

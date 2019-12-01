@@ -32,13 +32,15 @@ public class AltaCongreso  extends JInternalFrame {
 
 	public AltaCongreso(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
-		getContentPane().setBackground(Color.WHITE);
+		getContentPane().setForeground(Color.DARK_GRAY);
+		getContentPane().setBackground(Color.DARK_GRAY);
 		setVisible(true);
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
 		
 		JLabel lblNombre = new JLabel();
+		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setText("Nombre");
 		lblNombre.setBounds(12, 184, 45, 16);
 		getContentPane().add(lblNombre);
@@ -48,6 +50,7 @@ public class AltaCongreso  extends JInternalFrame {
 		getContentPane().add(txtNombre);
 		
 		JLabel lblApellido = new JLabel();
+		lblApellido.setForeground(Color.WHITE);
 		lblApellido.setText("Lugar");
 		lblApellido.setBounds(12, 237, 45, 16);
 		getContentPane().add(lblApellido);
@@ -57,6 +60,7 @@ public class AltaCongreso  extends JInternalFrame {
 		getContentPane().add(txtLugar);
 		
 		JLabel lblID = new JLabel();
+		lblID.setForeground(Color.WHITE);
 		lblID.setText("ID");
 		lblID.setBounds(24, 133, 12, 16);
 		getContentPane().add(lblID);
@@ -66,6 +70,7 @@ public class AltaCongreso  extends JInternalFrame {
 		getContentPane().add(txtID);
 		
 		JLabel lblArea = new JLabel();
+		lblArea.setForeground(Color.WHITE);
 		lblArea.setText("Area de Interes");
 		lblArea.setBounds(264, 184, 93, 16);
 		getContentPane().add(lblArea);
@@ -75,6 +80,7 @@ public class AltaCongreso  extends JInternalFrame {
 		getContentPane().add(txtArea);
 		
 		JLabel lblCosto = new JLabel();
+		lblCosto.setForeground(Color.WHITE);
 		lblCosto.setText("Costo");
 		lblCosto.setBounds(264, 133, 32, 16);
 		getContentPane().add(lblCosto);
@@ -84,6 +90,7 @@ public class AltaCongreso  extends JInternalFrame {
 		getContentPane().add(txtCosto);
 		
 		JLabel lblRelevancia = new JLabel();
+		lblRelevancia.setForeground(Color.WHITE);
 		lblRelevancia.setText("Relevancia");
 		lblRelevancia.setBounds(264, 237, 61, 16);
 		getContentPane().add(lblRelevancia);
@@ -123,6 +130,7 @@ public class AltaCongreso  extends JInternalFrame {
 		getContentPane().add(button);
 		
 		JLabel AltaCongreso = new JLabel("Alta y Baja Congreso");
+		AltaCongreso.setForeground(Color.CYAN);
 		AltaCongreso.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 64));
 		AltaCongreso.setBounds(12, 24, 706, 93);
 		getContentPane().add(AltaCongreso);
