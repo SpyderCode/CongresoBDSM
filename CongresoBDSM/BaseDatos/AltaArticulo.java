@@ -31,6 +31,7 @@ public class AltaArticulo  extends JInternalFrame {
 	private JTextField txtIdInvestigador;
 	private JTextField txtNombre;
     private String vered;
+    private JTextField txtRev;
 	public AltaArticulo(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
 		getContentPane().setBackground(Color.WHITE);
@@ -81,15 +82,17 @@ public class AltaArticulo  extends JInternalFrame {
 				CallableStatement cs =null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call altaArticulo(?,?,?,?)}");
+				    cs=con.prepareCall("{call altaArticulo(?,?,?,?,?)}");
 				    cs.setString("idart",txtId.getText());
 				    cs.setString("nomart",txtNombre.getText());
 				    cs.setString("idinv",txtIdInvestigador.getText());
 				    cs.setString("vere",vered);
+				    cs.setString("idrev",txtRev.getText());
+
 				    
 		
 				    cs.execute();
-				    JOptionPane.showMessageDialog(null,"Datos Guardados Correctamente ");
+				    JOptionPane.showMessageDialog(null,"Articulo Guardado Correctamente ");
 				    
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -132,15 +135,16 @@ public class AltaArticulo  extends JInternalFrame {
 				CallableStatement cs =null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call updateArticulo(?,?,?,?)}");
+				    cs=con.prepareCall("{call updateArticulo(?,?,?,?,?)}");
 				    cs.setString("idart",txtId.getText());
 				    cs.setString("nomart",txtNombre.getText());
 				    cs.setString("idinv",txtIdInvestigador.getText());
 				    cs.setString("vere",vered);
+				    cs.setString("idrev",txtRev.getText());
 				    
 		
 				    cs.execute();
-				    JOptionPane.showMessageDialog(null,"Datos Mofidicados Correctamente ");
+				    JOptionPane.showMessageDialog(null,"Articulo Mofidicado Correctamente ");
 				    
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -177,6 +181,16 @@ public class AltaArticulo  extends JInternalFrame {
 		rdbtnRechazado.setBounds(66, 296, 109, 23);
 		getContentPane().add(rdbtnRechazado);
 		veredicto.add(rdbtnRechazado);
+		
+		txtRev = new JTextField();
+		txtRev.setColumns(10);
+		txtRev.setBounds(226, 216, 164, 22);
+		getContentPane().add(txtRev);
+		
+		JLabel lblIdRevista = new JLabel("ID Revista");
+		lblIdRevista.setFont(new Font("Tahoma", Font.PLAIN, 29));
+		lblIdRevista.setBounds(12, 200, 220, 45);
+		getContentPane().add(lblIdRevista);
 
 		setBounds(100, 100, 674, 369);
 	}

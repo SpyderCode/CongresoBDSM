@@ -29,6 +29,7 @@ public class AltaPonencia  extends JInternalFrame {
 	private JTextField txtIdInvestigador;
 	private JTextField txtNombre;
 	private String vered;
+	private JTextField txtcongreso;
 
 	public AltaPonencia(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
@@ -59,7 +60,7 @@ public class AltaPonencia  extends JInternalFrame {
 		getContentPane().add(lblIdInvestigador);
 		
 		txtID = new JTextField();
-		txtID.setBounds(50, 124, 164, 22);
+		txtID.setBounds(62, 129, 164, 22);
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
 		
@@ -70,7 +71,7 @@ public class AltaPonencia  extends JInternalFrame {
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(137, 201, 164, 22);
+		txtNombre.setBounds(117, 201, 164, 22);
 		getContentPane().add(txtNombre);
 		
 		JButton btnAlta = new JButton("Alta");
@@ -79,11 +80,13 @@ public class AltaPonencia  extends JInternalFrame {
 				CallableStatement cs =null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call altaponencia(?,?,?,?)}");
+				    cs=con.prepareCall("{call altaponencia(?,?,?,?,?)}");
 				    cs.setString("idpon",txtID.getText());
 				    cs.setString("nom",txtNombre.getText());
 				    cs.setString("idinves",txtIdInvestigador.getText());
 				    cs.setString("vere",vered);
+				    cs.setString("idCon",txtcongreso.getText());
+				    
 				    
 		
 				    cs.execute();
@@ -128,12 +131,12 @@ public class AltaPonencia  extends JInternalFrame {
 				CallableStatement cs =null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call updatePonencia(?,?,?,?)}");
+				    cs=con.prepareCall("{call updatePonencia(?,?,?,?,?)}");
 				    cs.setString("idpon",txtID.getText());
 				    cs.setString("nom",txtNombre.getText());
 				    cs.setString("idinves",txtIdInvestigador.getText());
 				    cs.setString("vere",vered);
-				    
+				    cs.setString("idCon",txtcongreso.getText());
 		
 				    cs.execute();
 				    JOptionPane.showMessageDialog(null,"Datos Guardados Correctamente ");
@@ -175,6 +178,16 @@ ButtonGroup veredicto = new ButtonGroup();
 		rdbtnRechazado.setBounds(66, 291, 109, 23);
 		getContentPane().add(rdbtnRechazado);
 		veredicto.add(rdbtnRechazado);
+		
+		txtcongreso = new JTextField();
+		txtcongreso.setColumns(10);
+		txtcongreso.setBounds(482, 201, 164, 22);
+		getContentPane().add(txtcongreso);
+		
+		JLabel lblIdCongreso = new JLabel("ID Congreso");
+		lblIdCongreso.setFont(new Font("Tahoma", Font.PLAIN, 29));
+		lblIdCongreso.setBounds(310, 182, 220, 45);
+		getContentPane().add(lblIdCongreso);
 
 		setBounds(100, 100, 674, 369);
 	}
