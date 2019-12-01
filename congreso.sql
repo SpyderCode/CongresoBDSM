@@ -178,15 +178,17 @@ end;
   //
   
   delimiter ;
-  
+ 
   delimiter //
-  create procedure updateArticulo (in idart int(11), nomart varchar(25), idinv varchar (25), vere varchar(10))
+  create procedure updateArticulo (in idart int(11), nomart varchar(25), idinv varchar (25), vere varchar(10),idrev int(11))
   begin
   update articulo set nombreArt= nomart, idInvestigador=idinv ,veredicto = vere where idArticulo=idart;
+   update artirev set idRevista = idrev where idArticulo = idart;
   end;
   //
   
   delimiter ;
+  
   
   delimiter //
   create procedure updateInvestigador (in idinv int(11),nom varchar(25), apell varchar(25),espe varchar(25))
@@ -196,10 +198,13 @@ end;
   //
   
   delimiter ;
+  
+ 
   delimiter //
-  create procedure updatePonencia(in idpon int(11), nom varchar(25), idinves int(11), vere varchar(10))
+  create procedure updatePonencia(in idpon int(11), nom varchar(25), idinves int(11), vere varchar(10),idCon int(11))
   begin
   update ponencia set nombrePon = nom, idInvestigador = idinves, veredicto = vere where idPonencia = idpon;
+  update poncon set idCongreso = idCon where idPonencia = idpon;
   end;
   //
   
@@ -209,6 +214,7 @@ end;
   create procedure updateRevista(in idrev int(11), cost float, rele varchar(25), numrev int(11),nom varchar(25),fecha date,tipo varchar(25))
   begin 
   update revista set costo = cost, relevancia = rele, numRevista = numrev, Nombre = nom, fecha = fecha, tipoPub = tipo where idRevista = idrev;
+  
   end;
   //
   
@@ -226,6 +232,7 @@ end;
 
 delimiter ;
   call altacongreso(117,"Cong6","Zac",800,"Fisica","alto");
+  
   
   delimiter //
  create procedure altaArticulo (in idart int(11), nomart varchar(25), idinv varchar (25), vere varchar(10),idrev int(11))
@@ -263,11 +270,14 @@ delimiter //
   //
   
   /* deletes */
+  delimiter ;
+  drop procedure deletearticulo;
   
   delimiter //
   create procedure deletearticulo (in id int(11))
   begin 
   delete from articulo where idArticulo= id;
+  delete from artirev where idArticulo =id;
   end;
   //
   
@@ -285,10 +295,13 @@ delimiter //
   delete from revista where idRevista= id;
   end;
   //
+  delimiter ;
+  drop procedure deleteponencia;
   
   delimiter //
   create procedure deleteponencia (in id int(11))
   begin 
+  delete from poncon where idPonencia = id;
   delete from ponencia where idPonencia =id;
   end;
   //
@@ -333,21 +346,23 @@ insert into auditoria_investigador (TIPO,idInvestigador,nombre,apellido,especial
 ("NEW",NEW.idInvestigador,NEW.nombre,NEW.apellido,NEW.especialidad,current_user(), now() );
 end; //
 delimiter ;
-
+ 
 create table auditoria_articulo (
 TIPO varchar (25),
 idArticulo integer,
 nombreArt varchar (25),
 idInvestigador INTEGER,
-aceptado bool,
+veredicto varchar(10),
 usuario varchar (40),
 modificado datetime);
 
+delimiter ;
+drop trigger aud_art_trig;
 delimiter //
 create trigger aud_art_trig after update on articulo for each row 
 begin 
 insert into auditoria_articulo 
-(TIPO,idArticulo,nombreArt ,idInvestigador,aceptado,usuario,modificado) 
+(TIPO,idArticulo,nombreArt ,idInvestigador,veredicto,usuario,modificado) 
 values 
 ("OLD",OLD.idArticulo,OLD.nombreArt,OLD.idInvestigador,OLD.veredicto,current_user(), now() ),
 ("NEW",NEW.idArticulo,NEW.nombreArt,NEW.idInvestigador,NEW.veredicto,current_user(), now() );
