@@ -9,6 +9,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.Statement;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -114,7 +117,52 @@ public class VerPonencia  extends JInternalFrame {
 		table = new JTable();
 		table.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		scrollPane.setViewportView(table);
+		
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+				String[] columns= {"idPonencia","nombrePon","idInvestigador","Aceptado","Congreso"};
+				DefaultTableModel modelo = new DefaultTableModel(columns, 0);
+				modelo.addRow(columns);
+				
+				ResultSet rs = null;
+				@SuppressWarnings("unused")
+				Conexion conn = new Conexion();
+				Connection con = Conexion.getConection();
+				Statement stmt= (Statement)con.createStatement();
+				
+				String sql="SELECT ponencia.idPonencia,ponencia.nombrePon,ponencia.idInvestigador,"
+						+ "ponencia.aceptado,congreso.Nombre FROM ponencia,congreso,poncon "
+						+ "WHERE (ponencia.idPonencia=poncon.idPonencia) AND "
+						+ "(congreso.idCongreso=poncon.idCongreso)";
+				System.out.println(sql);
+				
+				rs=stmt.executeQuery(sql);
+				rs.beforeFirst();
+				
+				while(rs.next()) {
+					String idPon=rs.getString("idPonencia");
+					String nombre=rs.getString("nombrePon");
+					String idInv=rs.getString("idInvestigador");
+					String acep=rs.getString("aceptado");
+					String cong=rs.getString("Nombre");
+					
+					String[] data= {idPon,nombre,idInv,acep,cong};
+					modelo.addRow(data);
+					
+				}
+				table.setModel(modelo);
+				
+				
+				}catch (Exception e1) {
+					System.out.println(e1);
+				}
+			}
+		});
+		btnActualizar.setBounds(439, 498, 97, 25);
+		getContentPane().add(btnActualizar);
 
-		setBounds(100, 100, 564, 535);
+		setBounds(100, 100, 564, 572);
 	}
 }

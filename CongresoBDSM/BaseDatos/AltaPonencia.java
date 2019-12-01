@@ -29,6 +29,7 @@ public class AltaPonencia  extends JInternalFrame {
 	private JTextField txtIdInvestigador;
 	private JTextField txtNombre;
 	private String vered;
+	private JTextField txtIdCongreso;
 
 	public AltaPonencia(String titulo, boolean tamaño, boolean cerrar, boolean maximizar, CongresoBD padre) {
 		super(titulo, tamaño, cerrar, maximizar);
@@ -72,6 +73,45 @@ public class AltaPonencia  extends JInternalFrame {
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(137, 201, 164, 22);
 		getContentPane().add(txtNombre);
+
+		setBounds(100, 100, 674, 369);
+		
+ButtonGroup veredicto = new ButtonGroup();
+		
+		JRadioButton rdbtnAceptado = new JRadioButton("Aceptado");
+		rdbtnAceptado.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		rdbtnAceptado.setBackground(Color.WHITE);
+		rdbtnAceptado.setForeground(Color.BLACK);
+		rdbtnAceptado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				vered="Aceptado";
+			}
+		});
+		rdbtnAceptado.setBounds(66, 265, 109, 23);
+		getContentPane().add(rdbtnAceptado);
+		veredicto.add(rdbtnAceptado);
+		
+		JRadioButton rdbtnRechazado = new JRadioButton("Rechazado");
+		rdbtnRechazado.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		rdbtnRechazado.setBackground(Color.WHITE);
+		rdbtnRechazado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vered="Rechazado";
+			}
+		});
+		rdbtnRechazado.setBounds(66, 291, 109, 23);
+		getContentPane().add(rdbtnRechazado);
+		veredicto.add(rdbtnRechazado);
+		
+		JLabel lblIdCongreso = new JLabel("ID Congreso");
+		lblIdCongreso.setFont(new Font("Tahoma", Font.PLAIN, 29));
+		lblIdCongreso.setBounds(12, 143, 220, 45);
+		getContentPane().add(lblIdCongreso);
+		
+		txtIdCongreso = new JTextField();
+		txtIdCongreso.setColumns(10);
+		txtIdCongreso.setBounds(185, 159, 164, 22);
+		getContentPane().add(txtIdCongreso);
 		
 		JButton btnAlta = new JButton("Alta");
 		btnAlta.addActionListener(new ActionListener() {
@@ -79,11 +119,12 @@ public class AltaPonencia  extends JInternalFrame {
 				CallableStatement cs =null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call altaponencia(?,?,?,?)}");
+				    cs=con.prepareCall("{call altaponencia(?,?,?,?,?)}");
 				    cs.setString("idpon",txtID.getText());
 				    cs.setString("nom",txtNombre.getText());
 				    cs.setString("idinves",txtIdInvestigador.getText());
 				    cs.setString("vere",vered);
+				    cs.setString("idCon", txtIdCongreso.getText());
 				    
 		
 				    cs.execute();
@@ -146,35 +187,6 @@ public class AltaPonencia  extends JInternalFrame {
 		});
 		btnModificar.setBounds(549, 293, 97, 25);
 		getContentPane().add(btnModificar);
-
-		setBounds(100, 100, 674, 369);
-		
-ButtonGroup veredicto = new ButtonGroup();
-		
-		JRadioButton rdbtnAceptado = new JRadioButton("Aceptado");
-		rdbtnAceptado.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		rdbtnAceptado.setBackground(Color.WHITE);
-		rdbtnAceptado.setForeground(Color.BLACK);
-		rdbtnAceptado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				vered="Aceptado";
-			}
-		});
-		rdbtnAceptado.setBounds(66, 265, 109, 23);
-		getContentPane().add(rdbtnAceptado);
-		veredicto.add(rdbtnAceptado);
-		
-		JRadioButton rdbtnRechazado = new JRadioButton("Rechazado");
-		rdbtnRechazado.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		rdbtnRechazado.setBackground(Color.WHITE);
-		rdbtnRechazado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				vered="Rechazado";
-			}
-		});
-		rdbtnRechazado.setBounds(66, 291, 109, 23);
-		getContentPane().add(rdbtnRechazado);
-		veredicto.add(rdbtnRechazado);
 
 		setBounds(100, 100, 674, 369);
 	}
