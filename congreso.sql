@@ -1,4 +1,4 @@
-drop database congreso;
+
 create database congreso;
 use congreso;
 
@@ -273,7 +273,7 @@ delimiter //
   
   /* deletes */
   delimiter ;
-  drop procedure deletearticulo;
+  
   
   delimiter //
   create procedure deletearticulo (in id int(11))
@@ -298,7 +298,7 @@ delimiter //
   end;
   //
   delimiter ;
-  drop procedure deleteponencia;
+  
   
   delimiter //
   create procedure deleteponencia (in id int(11))
@@ -315,13 +315,21 @@ delimiter //
   delete from investigador where idInvestigador =id;
   end;
   //
+  delimiter ;
 
   /*USUARIOS*/
 drop user 'AdminCongreso'@'localhost';
 create user 'AdminCongreso'@'localhost' identified by "Qbka4p";
+create user 'Admin'@'localhost' identified by "Admin";
 GRANT ALL PRIVILEGES ON congreso.* TO 'AdminCongreso'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON congreso.* TO 'Admin'@'localhost' WITH GRANT OPTION;
+
 create user 'Roberto'@'localhost' identified by "password";
 grant select on congreso.* to 'Roberto'@'localhost';
+create user 'Roberto'@'localhost' identified by "password";
+create user 'invitado'@'localhost' identified by "pass";
+grant select on congreso.* to 'invitado'@'localhost';
+
 
 
 
@@ -359,7 +367,7 @@ usuario varchar (40),
 modificado datetime);
 
 delimiter ;
-drop trigger aud_art_trig;
+
 delimiter //
 create trigger aud_art_trig after update on articulo for each row 
 begin 
@@ -474,8 +482,7 @@ insert into auditoria_revista
 values 
 ("OLD",OLD.idRevista,OLD.costo,OLD.relevancia,OLD.numRevista,OLD.Nombre,OLD.fecha,OLD.tipoPub,current_user(), now() ),
 ("NEW",NEW.idRevista,NEW.costo,NEW.relevancia,NEW.numRevista,NEW.Nombre,NEW.fecha,NEW.tipoPub,current_user(), now() );
-end; //
+end; 
+//
 delimiter ; 
-  
-  
   
