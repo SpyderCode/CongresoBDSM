@@ -20,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VerRevista extends JInternalFrame {
 	// Obtener el contexto del Frame principal Hospital
@@ -50,6 +52,18 @@ public class VerRevista extends JInternalFrame {
 		getContentPane().add(lblID);
 
 		buscar = new JTextField();
+		buscar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					buscar.setEditable(true);
+				} else {
+					buscar.setEditable(false);
+
+				}
+			}
+		});
 		buscar.setColumns(10);
 		buscar.setBounds(70, 105, 354, 22);
 		getContentPane().add(buscar);
@@ -119,11 +133,10 @@ public class VerRevista extends JInternalFrame {
 				String Campo = buscar.getText();
 				String where = "";
 
-				if (!"".equals(Campo))
-				{
-				where = "WHERE idRevista = '" + Campo + "'";
+				if (!"".equals(Campo)) {
+					where = "WHERE idRevista = '" + Campo + "'";
 				}
-				
+
 				try {
 					DefaultTableModel modelo = new DefaultTableModel();
 					table.setModel(modelo);
@@ -132,42 +145,38 @@ public class VerRevista extends JInternalFrame {
 					@SuppressWarnings("unused")
 					Conexion conn = new Conexion();
 					Connection con = Conexion.getConection();
-					
-					
-					
+
 					String sql = "SELECT idRevista,costo,relevancia,Nombre,fecha,tipoPub  FROM revista " + where;
 					System.out.println(sql);
 					ps = (PreparedStatement) con.prepareStatement(sql);
 					rs = ps.executeQuery();
-					
-					java.sql.ResultSetMetaData rsMd =  rs.getMetaData();
+
+					java.sql.ResultSetMetaData rsMd = rs.getMetaData();
 					int cantidadColumnas = rsMd.getColumnCount();
-					
+
 					modelo.addColumn("ID Revista");
 					modelo.addColumn("Costo");
-			        modelo.addColumn("Numero de Edición ");
-			        modelo.addColumn("Nombre");
-			        modelo.addColumn("Fecha");
-			        modelo.addColumn("Tipo de publicación ");
-			        
-			      
-			                int[] anchos = {50, 100, 100, 120, 100, 100, 70};
-			        for (int x = 0; x < cantidadColumnas; x++) {
-			        table.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
-			        }
+					modelo.addColumn("Numero de Edición ");
+					modelo.addColumn("Nombre");
+					modelo.addColumn("Fecha");
+					modelo.addColumn("Tipo de publicación ");
+
+					int[] anchos = { 50, 100, 100, 120, 100, 100, 70 };
+					for (int x = 0; x < cantidadColumnas; x++) {
+						table.getColumnModel().getColumn(x).setPreferredWidth(anchos[x]);
+					}
 					while (rs.next()) {
 						Object[] filas = new Object[cantidadColumnas];
-						for (int i = 0; i< cantidadColumnas; i++)
-						{
+						for (int i = 0; i < cantidadColumnas; i++) {
 							filas[i] = rs.getObject(i + 1);
 						}
 						modelo.addRow(filas);
 					}
-						
+
 				} catch (SQLException ex) {
 					System.err.println(ex.toString());
-				 }
-				
+				}
+
 			}
 		});
 		btnBuscar.setBounds(436, 104, 97, 25);

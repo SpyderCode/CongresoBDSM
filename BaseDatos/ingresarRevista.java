@@ -29,6 +29,8 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.ImageIcon;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ingresarRevista extends JInternalFrame {
 	// Obtener el contexto del Frame principal Hospital
@@ -49,180 +51,205 @@ public class ingresarRevista extends JInternalFrame {
 		principal = padre;
 		contentPanel = (JPanel) this.getContentPane();
 		contentPanel.setLayout(null);
-		
+
 		JButton btnDarDeAlta = new JButton("Dar de Alta");
 		btnDarDeAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				CallableStatement cs =null;
+
+				CallableStatement cs = null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call altarevista(?,?,?,?,?,?,?)}");
-				    cs.setString("idrev",txtID.getText());
-				    cs.setString("cost",txtCosto.getText());
-				    cs.setString("rele",txtRelevancia.getText());
-				    cs.setString("numrev",txtNumEdicion.getText());
-				    cs.setString("nom",txtNombre.getText());
-				    cs.setString("fecha",txtFecha.getText());
-				    cs.setString("tipo",txtPub.getText());
-				   
-				    cs.execute();
-				    JOptionPane.showMessageDialog(null,"Datos Guardados Correctamente ");
-				  
-			
+					cs = con.prepareCall("{call altarevista(?,?,?,?,?,?,?)}");
+					cs.setString("idrev", txtID.getText());
+					cs.setString("cost", txtCosto.getText());
+					cs.setString("rele", txtRelevancia.getText());
+					cs.setString("numrev", txtNumEdicion.getText());
+					cs.setString("nom", txtNombre.getText());
+					cs.setString("fecha", txtFecha.getText());
+					cs.setString("tipo", txtPub.getText());
+
+					cs.execute();
+					JOptionPane.showMessageDialog(null, "Datos Guardados Correctamente ");
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-				
+
 			}
 		});
 		btnDarDeAlta.setBounds(272, 296, 116, 25);
 		getContentPane().add(btnDarDeAlta);
-		
+
 		JLabel lblId = new JLabel("ID");
 		lblId.setForeground(Color.WHITE);
 		lblId.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblId.setBounds(12, 70, 34, 34);
 		getContentPane().add(lblId);
-		
+
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setForeground(Color.WHITE);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblNombre.setBounds(12, 107, 106, 34);
 		getContentPane().add(lblNombre);
-		
+
 		JLabel lblRelevancia = new JLabel("Relevancia");
 		lblRelevancia.setForeground(Color.WHITE);
 		lblRelevancia.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblRelevancia.setBounds(12, 154, 132, 34);
 		getContentPane().add(lblRelevancia);
-		
+
 		JLabel lblFecha = new JLabel("Fecha");
 		lblFecha.setForeground(Color.WHITE);
 		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblFecha.setBounds(12, 201, 132, 34);
 		getContentPane().add(lblFecha);
-		
+
 		JLabel lblTipoDePublicacion = new JLabel("Tipo de publicacion");
 		lblTipoDePublicacion.setForeground(Color.WHITE);
 		lblTipoDePublicacion.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblTipoDePublicacion.setBounds(12, 242, 259, 34);
 		getContentPane().add(lblTipoDePublicacion);
-		
+
 		JLabel lblCosto = new JLabel("Costo");
 		lblCosto.setForeground(Color.WHITE);
 		lblCosto.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblCosto.setBounds(293, 107, 132, 34);
 		getContentPane().add(lblCosto);
-		
+
 		JLabel lblNumedicion = new JLabel("NumEdicion");
 		lblNumedicion.setForeground(Color.WHITE);
 		lblNumedicion.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		lblNumedicion.setBounds(293, 154, 174, 34);
 		getContentPane().add(lblNumedicion);
-		
+
 		txtID = new JTextField();
+		txtID.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtID.setEditable(true);
+				} else {
+					txtID.setEditable(false);
+
+				}
+			}
+		});
 		txtID.setBounds(59, 82, 116, 22);
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
-		
+
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(155, 119, 116, 22);
 		getContentPane().add(txtNombre);
-		
+
 		txtRelevancia = new JTextField();
 		txtRelevancia.setColumns(10);
 		txtRelevancia.setBounds(155, 166, 116, 22);
 		getContentPane().add(txtRelevancia);
-		
+
 		txtFecha = new JTextField();
 		txtFecha.setColumns(10);
 		txtFecha.setBounds(155, 213, 116, 22);
 		getContentPane().add(txtFecha);
-		
+
 		txtPub = new JTextField();
 		txtPub.setColumns(10);
 		txtPub.setBounds(272, 254, 359, 22);
 		getContentPane().add(txtPub);
-		
+
 		txtNumEdicion = new JTextField();
+		txtNumEdicion.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtNumEdicion.setEditable(true);
+				} else {
+					txtNumEdicion.setEditable(false);
+
+				}
+			}
+		});
 		txtNumEdicion.setColumns(10);
 		txtNumEdicion.setBounds(451, 166, 116, 22);
 		getContentPane().add(txtNumEdicion);
-		
+
 		txtCosto = new JTextField();
+		txtCosto.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+						|| (ke.getKeyCode() == KeyEvent.VK_DELETE)) {
+					txtCosto.setEditable(true);
+				} else {
+					txtCosto.setEditable(false);
+
+				}
+			}
+		});
 		txtCosto.setColumns(10);
 		txtCosto.setBounds(451, 119, 116, 22);
 		getContentPane().add(txtCosto);
-		
+
 		JLabel lblNewLabel = new JLabel("REVISTA");
 		lblNewLabel.setForeground(Color.CYAN);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 95));
 		lblNewLabel.setBounds(204, 0, 603, 103);
 		getContentPane().add(lblNewLabel);
-		
+
 		JButton btnDarDeBaja = new JButton("Dar de Baja");
 		btnDarDeBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				CallableStatement cs =null;
+
+				CallableStatement cs = null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call deleterevista(?)}");
-				    cs.setString("id",txtID.getText());
-				 
-				   
-				    cs.execute();
-				    JOptionPane.showMessageDialog(null,"Revista eliminada correctamente ");
-				  
-			
+					cs = con.prepareCall("{call deleterevista(?)}");
+					cs.setString("id", txtID.getText());
+
+					cs.execute();
+					JOptionPane.showMessageDialog(null, "Revista eliminada correctamente ");
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-				
+
 			}
 		});
 		btnDarDeBaja.setBounds(428, 296, 136, 25);
 		getContentPane().add(btnDarDeBaja);
 
 		setBounds(100, 100, 674, 369);
-		
-		
+
 		JButton btnModificarDatos = new JButton();
 		btnModificarDatos.setText("Modificar datos");
 		btnModificarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				CallableStatement cs =null;
+
+				CallableStatement cs = null;
 				try {
 					Connection con = Conexion.getConection();
-				    cs=con.prepareCall("{call updateRevista(?,?,?,?,?,?,?)}");
-				    cs.setString("idrev",txtID.getText());
-				    cs.setString("cost",txtCosto.getText());
-				    cs.setString("rele",txtRelevancia.getText());
-				    cs.setString("numrev",txtNumEdicion.getText());
-				    cs.setString("nom",txtNombre.getText());
-				    cs.setString("fecha",txtFecha.getText());
-				    cs.setString("tipo",txtPub.getText());
-				   
-				    cs.execute();
-				    JOptionPane.showMessageDialog(null,"Datos modificados correctamente ");
-				  
-			
+					cs = con.prepareCall("{call updateRevista(?,?,?,?,?,?,?)}");
+					cs.setString("idrev", txtID.getText());
+					cs.setString("cost", txtCosto.getText());
+					cs.setString("rele", txtRelevancia.getText());
+					cs.setString("numrev", txtNumEdicion.getText());
+					cs.setString("nom", txtNombre.getText());
+					cs.setString("fecha", txtFecha.getText());
+					cs.setString("tipo", txtPub.getText());
+
+					cs.execute();
+					JOptionPane.showMessageDialog(null, "Datos modificados correctamente ");
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
-				
+
 			}
 		});
 		btnModificarDatos.setBounds(602, 296, 126, 25);

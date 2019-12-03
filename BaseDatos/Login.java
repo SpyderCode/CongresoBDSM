@@ -1,5 +1,5 @@
 package BaseDatos;
-
+//Credo por Pedro,Ricardo,Magaly
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -63,66 +63,72 @@ public class Login {
 		frmCongresosYRevistas.setBounds(100, 100, 735, 506);
 		frmCongresosYRevistas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCongresosYRevistas.getContentPane().setLayout(null);
-		
+
 		JLabel lblBienvenido = new JLabel("BIENVENIDO");
 		lblBienvenido.setForeground(Color.WHITE);
 		lblBienvenido.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 69));
 		lblBienvenido.setBounds(12, 13, 472, 84);
 		frmCongresosYRevistas.getContentPane().add(lblBienvenido);
-		
+
 		JLabel lblUsuario = new JLabel();
 		lblUsuario.setText("USUARIO");
 		lblUsuario.setForeground(Color.WHITE);
 		lblUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUsuario.setBounds(37, 105, 67, 17);
 		frmCongresosYRevistas.getContentPane().add(lblUsuario);
-		
+
 		txtUsuario = new JTextField();
 		txtUsuario.setBounds(122, 103, 168, 22);
 		frmCongresosYRevistas.getContentPane().add(txtUsuario);
-		
+
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(122, 143, 168, 22);
 		frmCongresosYRevistas.getContentPane().add(txtPassword);
-		
+
 		JLabel label_1 = new JLabel();
 		label_1.setText("PASSWORD");
 		label_1.setForeground(Color.WHITE);
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_1.setBounds(22, 145, 82, 17);
 		frmCongresosYRevistas.getContentPane().add(label_1);
-		
+
 		JButton btnIngresar = new JButton();
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				Conexion.setcuenta(txtUsuario.getText(), txtPassword.getText());
 				Conexion.getConection();
-				
-			    if(Conexion.getstatus()) {
-					CongresoBD obj =new CongresoBD();
+
+				if (Conexion.getstatus()) {
+					CongresoBD obj = new CongresoBD();
 					obj.setVisible(true);
 					frmCongresosYRevistas.setEnabled(false);
-				}else {
-					 JOptionPane.showMessageDialog(null, "Usuario y password incorrectos ","Error de conexion",
-								JOptionPane.ERROR_MESSAGE);
-					   txtUsuario.setText("");
-					   txtPassword.setText("");
+				} else {
+					JOptionPane.showMessageDialog(null, "Usuario y password incorrectos ", "Error de conexion",
+							JOptionPane.ERROR_MESSAGE);
+					txtUsuario.setText("");
+					txtPassword.setText("");
 				}
-				
+
 			}
 		});
 		btnIngresar.setText("INGRESAR");
 		btnIngresar.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnIngresar.setBounds(42, 217, 89, 23);
+		btnIngresar.setBounds(42, 217, 105, 23);
 		frmCongresosYRevistas.getContentPane().add(btnIngresar);
-		
+
 		JButton btnSalir = new JButton();
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.err.println("Yeet");
+				System.exit(0);
+			}
+		});
 		btnSalir.setText("SALIR");
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnSalir.setBounds(226, 217, 87, 23);
 		frmCongresosYRevistas.getContentPane().add(btnSalir);
-		
+
 		JLabel lblBienvenidoACongresos = new JLabel("");
 		lblBienvenidoACongresos.setForeground(Color.BLACK);
 		lblBienvenidoACongresos.setBackground(Color.WHITE);

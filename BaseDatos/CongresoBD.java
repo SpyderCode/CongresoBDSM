@@ -25,9 +25,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.mysql.jdbc.Statement;
 
-import Clases.LoginUser;
-import Clases.Menu;
-
 //import Modelo.Paciente;
 
 //import Modelo.Paciente;
